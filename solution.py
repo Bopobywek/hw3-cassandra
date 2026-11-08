@@ -46,10 +46,32 @@ def create_tables(session):
     # Сценарий data проверяет по system_schema: partition key, DESC
     # у event_time, настройки сжатия обеих таблиц.
     session.execute(
-        #TODO user_actions
+        """
+        CREATE TABLE hw3.user_actions (
+            user_id int,
+            event_time timestamp,
+            event_type text,
+            payload text,
+            PRIMARY KEY ((user_id), event_time)
+        ) WITH CLUSTERING ORDER BY (event_time DESC)
+        AND compression = {
+            'class': 'LZ4Compressor'
+        };
+        """
     )
     session.execute(
-        #TODO user_actions_none
+        """
+        CREATE TABLE hw3.user_actions_none (
+            user_id int,
+            event_time timestamp,
+            event_type text,
+            payload text,
+            PRIMARY KEY ((user_id), event_time)
+        ) WITH CLUSTERING ORDER BY (event_time DESC)
+        AND compression = {
+            'enabled':'false'
+        };
+        """
     )
     return ['user_actions', 'user_actions_none']
 

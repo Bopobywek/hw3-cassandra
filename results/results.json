@@ -1,0 +1,27 @@
+{
+  "datasetVersion": "2026-10-07",
+  "scenarios": {
+    "data": {
+      "status": "failed",
+      "startedAt": "2026-11-08T11:49:52.602679+00:00",
+      "solutionHash": "a546196ea366883e81c0c72fdcda50754d7ba111d8a48b92eb2566479591777f",
+      "checks": [
+        "create_tables вернул две таблицы",
+        "таблица user_actions готова",
+        "таблица user_actions_none готова",
+        "partition key: user_id",
+        "clustering key event_time по убыванию",
+        "есть колонки event_type и payload",
+        "user_actions: сжатие LZ4",
+        "user_actions_none: сжатие отключено"
+      ],
+      "artifacts": {},
+      "skipped": 0,
+      "finishedAt": "2026-11-08T11:50:00.707665+00:00",
+      "error": {
+        "message": "TODO: insert_events"
+      },
+      "previousStatus": "failed"
+    }
+  }
+}
