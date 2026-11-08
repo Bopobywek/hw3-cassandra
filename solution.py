@@ -87,7 +87,10 @@ def insert_events(session, table, user_id, n, consistency):
     # порядок аргументов bind должен совпадать с порядком ? в запросе.
     # Уровень консистентности - на утверждении, не на сессии: сессия
     # у сценария consistency одна на все четыре замера.
-    query = ''  # TODO: INSERT-запрос с плейсхолдерами ?
+    query = f"""
+        INSERT INTO hw3.{table} (user_id, event_time, event_type, payload)
+            VALUES (?, ?, ?, ?);
+    """
     if not query:
         raise NotImplementedError('TODO: insert_events')
     prepared = session.prepare(query)
@@ -111,7 +114,12 @@ def read_last(session, table, user_id, limit, consistency):
     # клиенте не нужно. LIMIT - через плейсхолдер ?. Уровень
     # консистентности - на утверждении, как в insert_events.
     # Сценарий берёт из строк поля event_time и event_type.
-    query = ''  # TODO: SELECT-запрос с плейсхолдерами ?
+    query = f"""
+        SELECT user_id, event_time, event_type, payload
+        FROM hw3.{table}
+        WHERE user_id = ?
+        LIMIT ?;
+    """
     if not query:
         raise NotImplementedError('TODO: read_last')
     prepared = session.prepare(query)
