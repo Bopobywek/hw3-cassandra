@@ -4,7 +4,7 @@
 
 ### **Короткая инструкция** 
 
-1. Сложите `compose.yaml` , `lab.py` , `solution.py` , `init.cql` , `ops.sh` в одну папку - это папка проекта. Запустите Docker, откройте в ней терминал и поднимите кластер: 
+1. Сложите `compose.yaml`, `lab.py`, `solution.py`, `init.cql`, `ops.sh` в одну папку - это папка проекта. Запустите Docker, откройте в ней терминал и поднимите кластер: 
 
 ```
    docker compose up -d
@@ -14,7 +14,7 @@
    docker compose run --rm lab reset
 ```
 
-Получится кластер из трёх узлов `c1` , `c2` , `c3` и keyspace `hw3` . 
+Получится кластер из трёх узлов `c1`, `c2`, `c3` и keyspace `hw3`.
 
 2. Посмотрите контрольные данные и эталоны: 
 
@@ -22,7 +22,7 @@
    docker compose run --rm lab fixtures
 ```
 
-3. Заполняйте места с `TODO` в `solution.py` , после каждого блока запуская проверку: 
+3. Заполняйте места с `TODO` в `solution.py`, после каждого блока запуская проверку:
 
 |**Что сделано**|**Команда**|
 |---|---|
@@ -44,7 +44,7 @@
    docker compose run --rm lab metrics
 ```
 
-5. Создайте README с объяснениями по вопросам задания; результаты сценариев уже в `results/` . 
+5. Создайте README с объяснениями по вопросам задания; результаты сценариев уже в `results/`.
 
 6. Итоговый прогон: 
 
@@ -52,32 +52,32 @@
    docker compose run --rm lab all
 ```
 
-Запишите короткое видео с показом решения, добавьте исходники, README и результаты в репозиторий. Остановите стенд: `docker compose down` . 
+Запишите короткое видео с показом решения, добавьте исходники, README и результаты в репозиторий. Остановите стенд: `docker compose down`.
 
 ## **1. С чего начать** 
 
-1. Подготовьте окружение по приложению А. В папке проекта уже есть `lab.py` , `init.cql` , `ops.sh` и заготовка `solution.py` . 
+1. Подготовьте окружение по приложению А. В папке проекта уже есть `lab.py`, `init.cql`, `ops.sh` и заготовка `solution.py`.
 
 2. Выполняйте разделы 2-8 по порядку, заполняя функции в `solution.py` и записывая объяснения в README. 
 
 ## **2. Таблица и модель данных** 
 
-Сервис пишет каждое действие пользователя в таблицу `user_actions`; действие - `login` , `purchase` или `view` . Чтение - лента последних событий пользователя. Контрольный пользователь - `user_id 1001` . 
+Сервис пишет каждое действие пользователя в таблицу `user_actions`; действие - `login`, `purchase` или `view`. Чтение - лента последних событий пользователя. Контрольный пользователь - `user_id 1001`.
 
 |**Таблица**|**Поля**|**Типы и ограничения**|
 |---|---|---|
-|`user_actions`|`user_id`|int - partition key,идентификатор<br>пользователя|
-|`user_actions`|`event_time`|timestamp - clustering key,время<br>события; порядок по убыванию|
-|`user_actions`|`event_type`|text -`login`,`purchase` или `view`|
-|`user_actions`|`payload`|text -детали события|
+|`user_actions`|`user_id`|int - partition key, идентификатор пользователя|
+|`user_actions`|`event_time`|timestamp - clustering key, время события; порядок по убыванию|
+|`user_actions`|`event_type`|text - `login`, `purchase` или `view`|
+|`user_actions`|`payload`|text - детали события|
 |`user_actions`|сжатие|LZ4|
-|`user_actions_none`|те же поля|та же структура без сжатия;нужна<br>для сравнения размеров в разделе<br>5|
+|`user_actions_none`|те же поля|та же структура без сжатия; нужна для сравнения размеров в разделе 5|
 
 
 
 ### **Что сделать** 
 
-1. Заполните `create_tables` в `solution.py`: обе таблицы, первичный ключ `(user_id, event_time)`, сортировка по убыванию `event_time` , сжатие LZ4 только для `user_actions`. 
+1. Заполните `create_tables` в `solution.py`: обе таблицы, первичный ключ `(user_id, event_time)`, сортировка по убыванию `event_time`, сжатие LZ4 только для `user_actions`.
 
 2. Проверьте схему сценарием `data` (primary key, порядок сортировки, сжатие). 
 
@@ -92,7 +92,7 @@
 |**Операция**|**Вход**|**Выход**|
 |---|---|---|
 |`insert_events`|параметры заготовки|10 000 событий в `user_actions`, вставка через PreparedStatement|
-|`read_last`|`user_id`|события пользователя,`event_time` по убыванию|
+|`read_last`|`user_id`|события пользователя, `event_time` по убыванию|
 
 
 
@@ -110,7 +110,7 @@
 
 
 
-Время - суммарное; среднее за одну запись вычислите, разделив на число записей. Числа печатаются в выводе сценария и сохраняются в `results/results.json` , раздел `artifacts.bulk` (секунды). 
+Время - суммарное; среднее за одну запись вычислите, разделив на число записей. Числа печатаются в выводе сценария и сохраняются в `results/results.json`, раздел `artifacts.bulk` (секунды).
 
 4. Объясните в README, что даёт PreparedStatement. 
 
@@ -129,7 +129,7 @@
 
 
 
-Числа - медианы из 5 прогонов после прогрева; они в выводе сценария и в `results/results.json` , раздел `artifacts.consistency` (секунды; для таблицы пересчитать в миллисекунды), сырые прогоны - в поле `seconds_samples` . Консистентность задаётся на отдельных утверждениях ( `statement.consistency_level` ), а не на сессии. 
+Числа - медианы из 5 прогонов после прогрева; они в выводе сценария и в `results/results.json`, раздел `artifacts.consistency` (секунды; для таблицы пересчитать в миллисекунды), сырые прогоны - в поле `seconds_samples`. Консистентность задаётся на отдельных утверждениях (`statement.consistency_level`), а не на сессии.
 
 2. Объясните формулу W + R > N. N = 3, replication factor в keyspace `hw3` тоже 3. Опишите, что меняется между ONE и QUORUM для записи и для чтения и какие гарантии даёт QUORUM. 
 
@@ -141,14 +141,14 @@
 
 ### **Что сделать** 
 
-1. Выполните `bash ops.sh tablestats` после любого сценария, наполнившего таблицы ( `bulk` или `consistency` ). Перед снятием статистики скрипт делает `nodetool flush hw3` : размеры и bloom-фильтр считаются по SSTable, а не по memtable. Вывод сохраняется в `results/tablestats.txt` и `results/tablestats_plain.txt` . 
+1. Выполните `bash ops.sh tablestats` после любого сценария, наполнившего таблицы (`bulk` или `consistency`). Перед снятием статистики скрипт делает `nodetool flush hw3`: размеры и bloom-фильтр считаются по SSTable, а не по memtable. Вывод сохраняется в `results/tablestats.txt` и `results/tablestats_plain.txt`.
 
-2. Заполните таблицу сравнения по строкам `Space used (total)` , `SSTable count` и `SSTable Compression Ratio` : 
+2. Заполните таблицу сравнения по строкам `Space used (total)`, `SSTable count` и `SSTable Compression Ratio`:
 
-|**Таблица**|**Space used(total)**|**SSTable count**|**SSTable Compression Ratio**|
+|**Таблица**|**Space used (total)**|**SSTable count**|**SSTable Compression Ratio**|
 |---|---|---|---|
-|`user_actions`(LZ4)||||
-|`user_actions_none`(без сжатия)||||
+|`user_actions` (LZ4)||||
+|`user_actions_none` (без сжатия)||||
 
 
 
@@ -156,7 +156,7 @@
 
 ## **6. Bloom-фильтр** 
 
-В `results/tablestats.txt` для таблицы `hw3.user_actions` найдите строки `Bloom filter false positives` и `Bloom filter false ratio` . 
+В `results/tablestats.txt` для таблицы `hw3.user_actions` найдите строки `Bloom filter false positives` и `Bloom filter false ratio`.
 
 ### **Что сделать** 
 
@@ -177,7 +177,7 @@
 
 ### **Что сделать** 
 
-1. Выполните `bash ops.sh repair` и убедитесь, что появился файл `results/repair.txt` . 
+1. Выполните `bash ops.sh repair` и убедитесь, что появился файл `results/repair.txt`.
 
 2. Объясните в README: 
 
@@ -193,13 +193,13 @@
 
 ### **Что сделать** 
 
-1. Заполните `configure_twcs_ttl` в `solution.py` : для `user_actions` - стратегия TWCS с окном в один день ( `compaction_window_unit` , `compaction_window_size` ) и `default_time_to_live` = 2592000 (30 дней). 
+1. Заполните `configure_twcs_ttl` в `solution.py`: для `user_actions` - стратегия TWCS с окном в один день (`compaction_window_unit`, `compaction_window_size`) и `default_time_to_live` = 2592000 (30 дней).
 
-2. Прогоните `compaction` : сценарий проверяет конфигурацию по `system_schema.tables` , вставляет 5 событий с TTL 5 секунд и убеждается, что после истечения строк нет. 
+2. Прогоните `compaction`: сценарий проверяет конфигурацию по `system_schema.tables`, вставляет 5 событий с TTL 5 секунд и убеждается, что после истечения строк нет.
 
-3. В `cqlsh` ( `docker compose run --rm lab shell` ) включите `TRACING ON` и прочитайте партицию с истёкшими строками - в трейсе видна строка про tombstone. 
+3. В `cqlsh` (`docker compose run --rm lab shell`) включите `TRACING ON` и прочитайте партицию с истёкшими строками - в трейсе видна строка про tombstone.
 
-4. Выполните `bash ops.sh compact` : принудительная компакция `user_actions` и сохранение истории в `results/compaction.txt` . 
+4. Выполните `bash ops.sh compact`: принудительная компакция `user_actions` и сохранение истории в `results/compaction.txt`.
 
 5. Объясните в README: 
 
@@ -211,11 +211,11 @@
 
 ## **9. Результаты и демонстрация** 
 
-1. Результаты разделов 2-8 собраны в `results/` : сценарии - `results.json` , ручные шаги - `tablestats.txt` , `tablestats_plain.txt` , `repair.txt` , `compaction.txt` . 
+1. Результаты разделов 2-8 собраны в `results/`: сценарии - `results.json`, ручные шаги - `tablestats.txt`, `tablestats_plain.txt`, `repair.txt`, `compaction.txt`.
 
-2. Добавьте в README объяснения из разделов 2-8 и команды воспроизведения. Заготовки таблиц с местами для чисел - в `results/README.md` . 
+2. Добавьте в README объяснения из разделов 2-8 и команды воспроизведения. Заготовки таблиц с местами для чисел - в `results/README.md`.
 
-3. В видео (ориентир 5-8 минут) покажите обязательные сценарии: `data` , `bulk` , замеры ONE и QUORUM, `tablestats` (сжатие и bloom), `compaction` , `repair` - и соответствующий код с фактическим выводом. 
+3. В видео (ориентир 5-8 минут) покажите обязательные сценарии: `data`, `bulk`, замеры ONE и QUORUM, `tablestats` (сжатие и bloom), `compaction`, `repair` - и соответствующий код с фактическим выводом.
 
 ## **10. Оценивание** 
 
@@ -223,14 +223,14 @@
 
 |**Критерий**|**Баллы**|**Из чего складывается оценка**|
 |---|---|---|
-|Таблица и модель данных-раздел<br>2|**1,5**|Схема(PK, ORDER BY DESC)и сжатие<br>LZ4 - 0,5;объяснение модели- 0,5;<br>коллизияevent_time - 0,5|
-|Вставка и чтение-раздел3|**1,5**|Вставка10 000через<br>PreparedStatement - 0,5;проверка<br>объёма и порядка- 0,5;объяснение<br>PreparedStatement - 0,5|
-|Консистентность-раздел4|**2**|Замерыwrite/readприONEи<br>QUORUM - 1;объяснениеW + R > Nи<br>выбор уровня- 1|
-|Сжатие-раздел5|**1**|Tablestatsпо обеим таблицам и<br>таблица сравнения- 0,5;<br>объяснение компромисса- 0,5|
-|Bloom-фильтр-раздел6|**0,5**|Метрика и объяснение- 0,5|
-|Repair -раздел7|**1**|Выполненrepairи сохранён вывод-<br>0,5;объясненияanti-entropyи<br>последствий пропуска- 0,5|
-|TTLи компакция-раздел8|**1,5**|КонфигурацияTWCSиTTL - 0,5;<br>TTL-эксперимент иcompactionhistory<br>- 0,5; объяснения- 0,5|
-|Результаты и демонстрация-<br>раздел9|**1**|Результаты в `results/` иREADME -<br>0,5; демо-видео- 0,5|
+|Таблица и модель данных - раздел 2|**1,5**|Схема (PK, ORDER BY DESC) и сжатие LZ4 - 0,5; объяснение модели - 0,5; коллизия event_time - 0,5|
+|Вставка и чтение - раздел 3|**1,5**|Вставка 10 000 через PreparedStatement - 0,5; проверка объёма и порядка - 0,5; объяснение PreparedStatement - 0,5|
+|Консистентность - раздел 4|**2**|Замеры write/read при ONE и QUORUM - 1; объяснение W + R > N и выбор уровня - 1|
+|Сжатие - раздел 5|**1**|Tablestats по обеим таблицам и таблица сравнения - 0,5; объяснение компромисса - 0,5|
+|Bloom-фильтр - раздел 6|**0,5**|Метрика и объяснение - 0,5|
+|Repair - раздел 7|**1**|Выполнен repair и сохранён вывод - 0,5; объяснения anti-entropy и последствий пропуска - 0,5|
+|TTL и компакция - раздел 8|**1,5**|Конфигурация TWCS и TTL - 0,5; TTL-эксперимент и compaction history - 0,5; объяснения - 0,5|
+|Результаты и демонстрация - раздел 9|**1**|Результаты в `results/` и README - 0,5; демо-видео - 0,5|
 |**Итого**|**10**||
 
 
@@ -241,7 +241,7 @@
 
 1. Установите и запустите Docker с Compose v2. Для трёх узлов ориентир - от 2 ГБ памяти, доступной Docker: куча каждого узла ограничена 512 МБ. При первом запуске нужен интернет для скачивания образа. Cassandra и языковые среды на хосте не нужны. 
 
-2. Положите файлы комплекта в корень проекта: `compose.yaml` , `lab.py` , `solution.py` , `init.cql` , `ops.sh` . Откройте терминал в этой папке. 
+2. Положите файлы комплекта в корень проекта: `compose.yaml`, `lab.py`, `solution.py`, `init.cql`, `ops.sh`. Откройте терминал в этой папке.
 
 3. Поднимите окружение и сбросьте keyspace: 
 
@@ -250,7 +250,7 @@ docker compose up -d
 docker compose run --rm lab reset
 ```
 
-4. Посмотрите данные и эталоны, затем заполняйте `solution.py` : 
+4. Посмотрите данные и эталоны, затем заполняйте `solution.py`: 
 
 ```
 docker compose run --rm lab fixtures
@@ -258,15 +258,15 @@ docker compose run --rm lab fixtures
 
 ### **Работа со стендом** 
 
-|**Команда после ****`docker compose run --rm lab`**|**Действие**|
+|**Команда после `docker compose run --rm lab`**|**Действие**|
 |---|---|
-|`data`|Проверить таблицы,схему(PK, ORDER BY DESC, LZ4)и<br>фикстуры|
-|`bulk`|Вставить10 000записей черезPreparedStatementи<br>проверить чтение|
-|`consistency`|Замерить запись и чтение приONEиQUORUM|
-|`compaction`|НастроитьTWCS+TTL,проверитьTTLпо `system_schema`<br>и истечение строк|
-|`metrics`|Проверить,что выполнены ручные шагиtablestatsи<br>repair|
-|`all`|Последовательно выполнитьdata, compaction, bulkи<br>consistency|
-|`reset`|Сброситьkeyspace`hw3` и подготовить начальное<br>состояние; прежние результаты проверок очищаются|
+|`data`|Проверить таблицы, схему (PK, ORDER BY DESC, LZ4) и фикстуры|
+|`bulk`|Вставить 10 000 записей через PreparedStatement и проверить чтение|
+|`consistency`|Замерить запись и чтение при ONE и QUORUM|
+|`compaction`|Настроить TWCS + TTL, проверить TTL по `system_schema` и истечение строк|
+|`metrics`|Проверить, что выполнены ручные шаги tablestats и repair|
+|`all`|Последовательно выполнить data, compaction, bulk и consistency|
+|`reset`|Сбросить keyspace `hw3` и подготовить начальное состояние; прежние результаты проверок очищаются|
 |`fixtures`|Показать контрольные данные,параметры и эталоны|
 |`shell`|Открыть интерактивный `cqlsh` для произвольных<br>запросов|
 |`help`|Показать справку|
@@ -275,17 +275,17 @@ docker compose run --rm lab fixtures
 
 |**Команда на хосте**|**Действие**|
 |---|---|
-|`bash ops.sh tablestats`|Выполнить `nodetool flush hw3`,затем `nodetool`<br>`tablestats` по `user_actions` и `user_actions_none`;<br>файлы `results/tablestats.txt` и<br>`results/tablestats_plain.txt`|
-|`bash ops.sh repair`|Выполнить `nodetool repair hw3`;файл<br>`results/repair.txt`|
-|`bash ops.sh compact`|Принудительная компакция `user_actions` и история<br>компакций; файл `results/compaction.txt`|
+|`bash ops.sh tablestats`|Выполнить `nodetool flush hw3`, затем `nodetool tablestats` по `user_actions` и `user_actions_none`; файлы `results/tablestats.txt` и `results/tablestats_plain.txt`|
+|`bash ops.sh repair`|Выполнить `nodetool repair hw3`; файл `results/repair.txt`|
+|`bash ops.sh compact`|Принудительная компакция `user_actions` и история компакций; файл `results/compaction.txt`|
 
 
 
-Например: `docker compose run --rm lab bulk` . Каждый сценарий готовит своё исходное состояние; не запускайте их одновременно и не меняйте контрольный набор. До заполнения соответствующих функций сообщение `TODO` ожидаемо. Для полного прогона используйте `all` . 
+Например: `docker compose run --rm lab bulk`. Каждый сценарий готовит своё исходное состояние; не запускайте их одновременно и не меняйте контрольный набор. До заполнения соответствующих функций сообщение `TODO` ожидаемо. Для полного прогона используйте `all`. 
 
-Скрипт `ops.sh` вызывается через `bash ops.sh` , исполняемым его делать не нужно. 
+Скрипт `ops.sh` вызывается через `bash ops.sh`, исполняемым его делать не нужно. 
 
-Результаты собраны в `results/` . Для остановки выполните `docker compose down` . Чтобы удалить и данные в Docker, выполните `docker compose down -v` и повторите подготовку; файлы результатов на хосте остаются. 
+Результаты собраны в `results/`. Для остановки выполните `docker compose down`. Чтобы удалить и данные в Docker, выполните `docker compose down -v` и повторите подготовку; файлы результатов на хосте остаются. 
 
 ### **Настройки** 
 
@@ -296,12 +296,12 @@ docker compose run --rm lab fixtures
 
 
 
-|Keyspace|`hw3`,replication factor 3|
+|Keyspace|`hw3`, replication factor 3|
 |---|---|
-|Таблицы|`user_actions` со сжатиемLZ4;`user_actions_none` без<br>сжатия|
-|Компакция иTTL|TWCSокно1день,`default_time_to_live`30дней<br>(раздел8)|
-|Доступ|ВнутренняяDocker-сеть,без аутентификации иTLS;<br>порты на хост не публикуются|
-|Контактные точки|Имена сервисов `c1`, `c2`, `c3` во внутреннейDocker-сети|
+|Таблицы|`user_actions` со сжатием LZ4;`user_actions_none` без сжатия|
+|Компакция иTTL|TWCSокно1день,`default_time_to_live`30 дней (раздел 8)|
+|Доступ|Внутренняя Docker-сеть, без аутентификации и TLS; порты на хост не публикуются|
+|Контактные точки|Имена сервисов `c1`, `c2`, `c3` во внутренней Docker-сети|
 |Подключение|`docker compose exec c1 cqlsh`|
 
 
