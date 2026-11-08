@@ -2,16 +2,16 @@ Total number of tables: 1
 ----------------
 Keyspace: hw3
 	Read Count: 7
-	Read Latency: 0.15757142857142858 ms
+	Read Latency: 0.17728571428571427 ms
 	Write Count: 14000
-	Write Latency: 0.016980285714285715 ms
+	Write Latency: 0.020617285714285713 ms
 	Pending Flushes: 0
 		Table: user_actions_none
 		SSTable count: 1
 		Old SSTable count: 0
-		Max SSTable size: 76.455KiB
-		Space used (live): 78290
-		Space used (total): 78290
+		Max SSTable size: 76.683KiB
+		Space used (live): 78523
+		Space used (total): 78523
 		Space used by snapshots (total): 0
 		Off heap memory used (total): 24
 		SSTable Compression Ratio: -1.00000
@@ -24,12 +24,12 @@ Keyspace: hw3
 		Local read count: 0
 		Local read latency: NaN ms
 		Local write count: 2000
-		Local write latency: NaN ms
+		Local write latency: 0.021 ms
 		Local read/write ratio: 0.00000
 		Pending flushes: 0
 		Percent repaired: 0.0
 		Bytes repaired: 0B
-		Bytes unrepaired: 71.421KiB
+		Bytes unrepaired: 71.647KiB
 		Bytes pending repair: 0B
 		Bloom filter false positives: 0
 		Bloom filter false ratio: 0.00000

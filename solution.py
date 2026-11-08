@@ -143,5 +143,13 @@ def configure_twcs_ttl(session, table):
     # Сценарий compaction проверяет по system_schema.tables класс
     # стратегии, окно и default_time_to_live.
     session.execute(
-    #TODO ALTER TABLE
+        f"""
+        ALTER TABLE hw3.{table}
+        WITH compaction = {{
+            'class': 'TimeWindowCompactionStrategy',
+            'compaction_window_unit': 'DAYS',
+            'compaction_window_size': '1'
+        }}
+        AND default_time_to_live = 2592000;
+        """
     )

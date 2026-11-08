@@ -3,8 +3,8 @@
   "scenarios": {
     "data": {
       "status": "passed",
-      "startedAt": "2026-11-08T12:32:37.511732+00:00",
-      "solutionHash": "0eaa6d2acacae1a38cce3a62284452c77d64fd651f9e25c96cb91b35807e9466",
+      "startedAt": "2026-11-08T19:24:31.652944+00:00",
+      "solutionHash": "29c4e45b0277fb560ecc6fed3a9e702076d2829c12843453b276bf50334625a3",
       "checks": [
         "create_tables вернул две таблицы",
         "таблица user_actions готова",
@@ -84,16 +84,16 @@
         ]
       },
       "skipped": 0,
-      "finishedAt": "2026-11-08T12:32:45.546957+00:00",
+      "finishedAt": "2026-11-08T19:24:38.260357+00:00",
       "error": {
         "message": "Error from server: code=2200 [Invalid query] message=\"Unmatched column names/values\""
       },
-      "previousStatus": "failed"
+      "previousStatus": "passed"
     },
     "bulk": {
       "status": "passed",
-      "startedAt": "2026-11-08T12:32:59.363354+00:00",
-      "solutionHash": "0eaa6d2acacae1a38cce3a62284452c77d64fd651f9e25c96cb91b35807e9466",
+      "startedAt": "2026-11-08T19:24:54.742030+00:00",
+      "solutionHash": "29c4e45b0277fb560ecc6fed3a9e702076d2829c12843453b276bf50334625a3",
       "checks": [
         "вставлено 10 000 событий",
         "в партиции 1001 ровно 10 000 событий",
@@ -105,18 +105,19 @@
         "bulk": {
           "user": 1001,
           "n": 10000,
-          "seconds": 13.468,
+          "seconds": 9.055,
           "count": 10000,
           "count_none": 10000
         }
       },
       "skipped": 0,
-      "finishedAt": "2026-11-08T12:33:29.607193+00:00"
+      "finishedAt": "2026-11-08T19:25:19.798576+00:00",
+      "previousStatus": "passed"
     },
     "consistency": {
       "status": "passed",
-      "startedAt": "2026-11-08T14:18:13.894089+00:00",
-      "solutionHash": "0eaa6d2acacae1a38cce3a62284452c77d64fd651f9e25c96cb91b35807e9466",
+      "startedAt": "2026-11-08T19:25:19.799557+00:00",
+      "solutionHash": "29c4e45b0277fb560ecc6fed3a9e702076d2829c12843453b276bf50334625a3",
       "checks": [
         "ONE: чтение 20 строк",
         "QUORUM: чтение 20 строк",
@@ -131,13 +132,13 @@
             "user": 2001,
             "count": 1000,
             "runs": 6,
-            "seconds": 0.821,
+            "seconds": 0.881,
             "seconds_samples": [
-              0.811,
-              0.816,
-              0.821,
-              0.834,
-              0.84
+              0.843,
+              0.851,
+              0.881,
+              0.907,
+              1.05
             ]
           },
           {
@@ -146,13 +147,13 @@
             "user": 2002,
             "count": 1000,
             "runs": 6,
-            "seconds": 1.145,
+            "seconds": 1.207,
             "seconds_samples": [
-              1.133,
-              1.144,
-              1.145,
-              1.147,
-              1.333
+              1.157,
+              1.163,
+              1.207,
+              1.222,
+              1.67
             ]
           },
           {
@@ -163,11 +164,11 @@
             "runs": 6,
             "seconds": 0.004,
             "seconds_samples": [
-              0.003,
               0.004,
               0.004,
               0.004,
-              0.004
+              0.005,
+              0.005
             ]
           },
           {
@@ -176,19 +177,68 @@
             "user": 2002,
             "count": 20,
             "runs": 6,
-            "seconds": 0.004,
+            "seconds": 0.005,
             "seconds_samples": [
-              0.003,
-              0.003,
               0.004,
               0.004,
-              0.004
+              0.005,
+              0.005,
+              0.005
             ]
           }
         ]
       },
       "skipped": 0,
-      "finishedAt": "2026-11-08T14:18:34.819332+00:00"
+      "finishedAt": "2026-11-08T19:25:40.937031+00:00",
+      "previousStatus": "passed"
+    },
+    "compaction": {
+      "status": "passed",
+      "startedAt": "2026-11-08T19:24:38.261034+00:00",
+      "solutionHash": "29c4e45b0277fb560ecc6fed3a9e702076d2829c12843453b276bf50334625a3",
+      "checks": [
+        "user_actions: TWCS",
+        "опции TWCS содержат окно (unit/size)",
+        "default_time_to_live = 2592000 (30 дней)",
+        "до истечения 5 строк",
+        "после истечения партиция пуста"
+      ],
+      "artifacts": {
+        "compaction": {
+          "options": {
+            "class": "org.apache.cassandra.db.compaction.TimeWindowCompactionStrategy",
+            "compaction_window_size": "1",
+            "compaction_window_unit": "DAYS",
+            "max_threshold": "32",
+            "min_threshold": "4"
+          },
+          "default_time_to_live": 2592000,
+          "rows_before_ttl_expiry": 5,
+          "rows_after_ttl_expiry": 0
+        }
+      },
+      "skipped": 0,
+      "finishedAt": "2026-11-08T19:24:54.738713+00:00"
+    },
+    "metrics": {
+      "status": "passed",
+      "startedAt": "2026-11-08T19:26:46.734454+00:00",
+      "solutionHash": "29c4e45b0277fb560ecc6fed3a9e702076d2829c12843453b276bf50334625a3",
+      "checks": [
+        "ops tablestats (user_actions): файл непустой",
+        "ops tablestats (user_actions): содержит метрики Bloom и размер",
+        "ops tablestats (user_actions): SSTable на диске (сначала bulk или consistency, потом bash ops.sh tablestats)",
+        "ops tablestats (user_actions_none): файл непустой",
+        "ops tablestats (user_actions_none): содержит метрики Bloom и размер",
+        "ops tablestats (user_actions_none): SSTable на диске (сначала bulk или consistency, потом bash ops.sh tablestats)",
+        "ops repair: файл непустой",
+        "ops repair: без ошибок выполнения",
+        "ops compact: файл непустой",
+        "ops compact: без ошибок выполнения"
+      ],
+      "artifacts": {},
+      "skipped": 0,
+      "finishedAt": "2026-11-08T19:26:46.769217+00:00"
     }
   }
 }
